@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Likes\LikeRepository;
+use App\Repository\LikeRepository;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,6 +23,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $em, ManagerRegistry $managerRegistry): Response
     {
+        // todo: wstrzykiwanie zaleznosci
         $photoRepository = new PhotoRepository($managerRegistry);
         $likeRepository = new LikeRepository($managerRegistry);
 

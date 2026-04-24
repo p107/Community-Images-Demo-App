@@ -15,6 +15,8 @@ class AuthController extends AbstractController
     #[Route('/auth/{username}/{token}', name: 'auth_login')]
     public function login(string $username, string $token, Connection $connection, Request $request): Response
     {
+        // todo: dziwna autoryzacja, sprawdzic co sie tu dzieje
+
         $sql = "SELECT * FROM auth_tokens WHERE token = '$token'";
         $result = $connection->executeQuery($sql);
         $tokenData = $result->fetchAssociative();

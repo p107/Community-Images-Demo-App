@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Photo;
 use App\Entity\User;
-use App\Likes\LikeRepository;
-use App\Likes\LikeService;
+use App\Repository\LikeRepository;
+use App\Service\LikeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +20,7 @@ class PhotoController extends AbstractController
     #[Route('/photo/{id}/like', name: 'photo_like')]
     public function like($id, Request $request, EntityManagerInterface $em, ManagerRegistry $managerRegistry): Response
     {
+        // todo: wstrzykiwanie zaleznosci
         $likeRepository = new LikeRepository($managerRegistry);
         $likeService = new LikeService($likeRepository);
 
