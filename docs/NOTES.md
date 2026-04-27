@@ -17,4 +17,5 @@
 ## Warto by było jeszcze:
 
 - Autentykacja methodą POST bo jeśli ktoś użyje aktualnego linka do autentykacji w przeglądarce (nie incognito) to token będzie widoczny w historii przeglądarki, a to nie jest bezpieczne
+- ProfileController powinien zostać zrefaktorowany bo jest tam trochę akcji związanej z external API, a trochę z profilem użytkownika - można by to rozdzielić
 - 
