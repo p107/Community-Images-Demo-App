@@ -44,6 +44,10 @@ class PhotoImportService
 
             $photo = (new Photo())
                 ->setImageUrl($dto->photoUrl)
+                ->setLocation($dto->location)
+                ->setDescription($dto->description)
+                ->setCamera($dto->camera)
+                ->setTakenAt($dto->takenAt)
                 ->setUser($user);
 
             $this->em->persist($photo);

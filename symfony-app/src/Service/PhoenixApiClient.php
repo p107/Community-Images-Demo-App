@@ -22,24 +22,45 @@ class PhoenixApiClient
     public function fetchPhotos(string $token): array
     {
         $response = $this->httpClient->request('GET', $this->phoenixBaseUrl . '/api/photos', [
-            'headers' => [
-                'access-token' => $token,
-            ],
+            'headers' => ['access-token' => $token],
         ]);
 
         if ($response->getStatusCode() === 401) {
             throw InvalidTokenException::create();
         }
 
-        $data = $response->toArray();
+        $list = $response->toArray()['photos'] ?? [];
 
         return array_map(
-            static fn(array $photo) => new PhoenixPhotoDTO(
-                id: $photo['id'],
-                photoUrl: $photo['photo_url'],
-            ),
-            $data['photos'] ?? [],
+            fn(array $item) => $this->fetchPhoto($item['id'], $token),
+            $list,
+        );
+    }
+
+    /**
+     * @throws InvalidTokenException
+     */
+    private function fetchPhoto(int $id, string $token): PhoenixPhotoDTO
+    {
+        $response = $this->httpClient->request('GET', $this->phoenixBaseUrl . '/api/photos/' . $id, [
+            'headers' => ['access-token' => $token],
+        ]);
+
+        if ($response->getStatusCode() === 401) {
+            throw InvalidTokenException::create();
+        }
+
+        $data = $response->toArray()['photo'];
+
+        return new PhoenixPhotoDTO(
+            id: $data['id'],
+            photoUrl: $data['photo_url'],
+            location: $data['location'] ?? null,
+            description: $data['description'] ?? null,
+            camera: $data['camera'] ?? null,
+            takenAt: isset($data['taken_at'])
+                ? new \DateTimeImmutable($data['taken_at'])
+                : null,
         );
     }
 }
-
