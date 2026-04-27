@@ -9,6 +9,7 @@ use App\Repository\ExternalApiTokenRepository;
 use App\Service\CurrentUserProvider;
 use App\Service\PhotoImportService;
 use App\Shared\PhoenixApi\InvalidTokenException;
+use App\Shared\PhoenixApi\RateLimitExceededException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,6 +96,8 @@ class ProfileController extends AbstractController
         try {
             $imported = $this->photoImportService->importForUser($user);
             $this->addFlash('success', sprintf('Successfully imported %d photo(s).', $imported));
+        } catch (RateLimitExceededException) {
+            $this->addFlash('error', 'Import limit exceeded. You can import photos at most 5 times per 10 minutes. Please try again later.');
         } catch (InvalidTokenException) {
             $this->addFlash('error', 'Invalid PhoenixApi token. Please update your token and try again.');
         } catch (\RuntimeException) {
