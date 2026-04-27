@@ -11,7 +11,8 @@
 - Wyodrębnienie logiki pobierania zalogowanego użytkownika (home i profile)
 - Usunięcie `setUser()` z `LikeRepository` - stan użytkownika w repozytorium narusza zasadę pojedyńczej odpowiedzialności i utrudnia testowanie. Przekazanie `User` jako argument.
 - Dodanie interfejsu dla `PhotoRepository` - zasada open/closed, brak interfejsu → niemożliwe mockowanie w testach
--
+- Poprawa obsługi wyjątków w `LikeService`. Dedykowany `LikeException`.
+- 
 
 ## Warto by było jeszcze:
 
