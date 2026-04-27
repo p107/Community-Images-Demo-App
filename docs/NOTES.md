@@ -26,7 +26,7 @@
 
 ## Rozszerzone funkcjonalności
 
-### Phoenix API o endpoint z pełnymi danymi zdjęcia
+### Phoenix API i endpoint z pełnymi danymi zdjęcia
 
 Rozszerzenie Phoenix API o endpoint z pełnymi danymi zdjęcia (location, camera, description, taken_at).
 
@@ -34,6 +34,6 @@ Można też było uzupełnić istniejący endpoint o brakujące dane co przy ma�
 
 Należy też pamiętać, że to tylko demostracyjna aplikacja i w realnym projekcie to jest moment gdy należy dodać kolejkowanie dla importu aby uniknąć timeoutów, błędów, umożliwić ponawianie itp. W minimalnym rozwiązaniu to mógłby być Symfony Messanger z transportem na zwykłej tabeli w bazie, w bardziej rozbudowanej formie z transportem na bazie no-sql np Mongu lub w systemie kolejkowym jak RabbitMQ. W przypadku dużej ilości danych i długotrwałych operacji to jest praktycznie konieczne aby zapewnić stabilność i skalowalność rozwiązania.
 
+### Reakcja na limity
 
-
-- 
+Po stronie aplikacji wprowadzono reakcję na limity API Phoenix. W przypadku przekroczenia limitów jest wyświetlany komunikat informujący użytkownika o konieczności odczekania przed ponowną próbą importu. 

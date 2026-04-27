@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Shared\PhoenixApi\InvalidTokenException;
 use App\Shared\PhoenixApi\PhoenixPhotoDTO;
+use App\Shared\PhoenixApi\RateLimitExceededException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PhoenixApiClient
@@ -29,6 +30,10 @@ class PhoenixApiClient
             throw InvalidTokenException::create();
         }
 
+        if ($response->getStatusCode() === 429) {
+            throw RateLimitExceededException::create();
+        }
+
         $list = $response->toArray()['photos'] ?? [];
 
         return array_map(
@@ -48,6 +53,10 @@ class PhoenixApiClient
 
         if ($response->getStatusCode() === 401) {
             throw InvalidTokenException::create();
+        }
+
+        if ($response->getStatusCode() === 429) {
+            throw RateLimitExceededException::create();
         }
 
         $data = $response->toArray()['photo'];
