@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   phoenix-db:
     image: postgres:15
@@ -56,7 +54,7 @@ services:
       PHOENIX_BASE_URL: http://phoenix:4000
       DATABASE_URL: postgres://postgres:postgres@symfony-db:5432/symfony_app
     ports:
-      - "8000:8000"
+      - "8080:8000"
     volumes:
       - ./symfony-app:/app
 

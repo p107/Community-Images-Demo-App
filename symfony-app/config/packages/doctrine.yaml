@@ -15,7 +15,7 @@ doctrine:
                 alias: App
             Likes:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Likes'
+                dir: '%kernel.project_dir%/src/Shared/Likes'
                 prefix: 'App\Likes'
                 alias: Likes
 
