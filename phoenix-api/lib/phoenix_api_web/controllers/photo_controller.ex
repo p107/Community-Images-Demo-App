@@ -18,4 +18,32 @@ defmodule PhoenixApiWeb.PhotoController do
 
     json(conn, %{photos: photos})
   end
+
+  def show(conn, %{"id" => id}) do
+    current_user = conn.assigns.current_user
+
+    photo =
+      Photo
+      |> where([p], p.id == ^id and p.user_id == ^current_user.id)
+      |> Repo.one()
+
+    case photo do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Photo not found"})
+
+      photo ->
+        json(conn, %{
+          photo: %{
+            id: photo.id,
+            photo_url: photo.photo_url,
+            location: photo.location,
+            description: photo.description,
+            camera: photo.camera,
+            taken_at: photo.taken_at
+          }
+        })
+    end
+  end
 end

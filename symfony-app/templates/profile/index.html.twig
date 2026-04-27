@@ -101,24 +101,92 @@
             line-height: 1.6;
         }
         
-        .back-button {
-            display: inline-block;
+        .phoenix-section {
             margin-top: 30px;
-            padding: 12px 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .phoenix-section h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .token-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .token-input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .token-input-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .token-input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+            outline: none;
+        }
+
+        .token-input-group input:focus {
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
-        
-        .back-button:hover {
+
+        .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
-        
+
+        .btn-import {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+        }
+
+        .btn-import:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+
         .profile-stats {
             display: flex;
             justify-content: center;
@@ -204,8 +272,35 @@
             </div>
         </div>
         
-        <div style="text-align: center;">
-            <a href="{{ path('home') }}" class="back-button">← Back to Gallery</a>
+        <div class="phoenix-section">
+            <h2>🔗 PhoenixApi — Photo Import</h2>
+
+            <form method="post" action="{{ path('profile_save_token') }}" class="token-form">
+                <input type="hidden" name="_token" value="{{ csrf_token('phoenix_token') }}">
+                <div class="token-input-group">
+                    <label for="phoenix_api_token">Access Token</label>
+                    <input
+                        type="text"
+                        id="phoenix_api_token"
+                        name="phoenix_api_token"
+                        value="{{ phoenixApiToken ?? '' }}"
+                        placeholder="Paste your PhoenixApi access token here"
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary">💾 Save Token</button>
+            </form>
+
+            {% if phoenixApiToken %}
+                <form method="post" action="{{ path('profile_import_photos') }}" style="margin-top: 16px;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('import_photos') }}">
+                    <button type="submit" class="btn btn-import">📥 Import Photos</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{{ path('home') }}" class="btn btn-primary">← Back to Gallery</a>
         </div>
     </div>
 {% endblock %}

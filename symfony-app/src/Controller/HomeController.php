@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DTO\PhotoFilterDTO;
 use App\Repository\LikeRepository;
 use App\Service\CurrentUserProvider;
 use App\Shared\Photo\PhotoRepositoryInterface;
@@ -25,7 +26,11 @@ class HomeController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $photos = $this->photoRepository->findAllWithUsers();
+        $filter = PhotoFilterDTO::fromRequest($request);
+
+        $photos = $filter->isEmpty()
+            ? $this->photoRepository->findAllWithUsers()
+            : $this->photoRepository->findWithFilters($filter);
 
         $currentUser = $this->currentUserProvider->getUser();
         $userLikes = [];
@@ -40,6 +45,7 @@ class HomeController extends AbstractController
             'photos' => $photos,
             'currentUser' => $currentUser,
             'userLikes' => $userLikes,
+            'filter' => $filter,
         ]);
     }
 }
