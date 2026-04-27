@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\LikeRepository;
-use App\Repository\PhotoRepository;
 use App\Service\CurrentUserProvider;
+use App\Shared\Photo\PhotoRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private readonly PhotoRepository $photoRepository,
+        private readonly PhotoRepositoryInterface $photoRepository,
         private readonly LikeRepository $likeRepository,
         private readonly CurrentUserProvider $currentUserProvider,
     ) {}
