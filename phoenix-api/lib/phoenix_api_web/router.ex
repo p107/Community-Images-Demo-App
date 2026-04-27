@@ -9,5 +9,6 @@ defmodule PhoenixApiWeb.Router do
     pipe_through :api
 
     get "/photos", PhotoController, :index
+    get "/photos/:id", PhotoController, :show
   end
 end
