@@ -9,6 +9,7 @@
 - AuthController - SQL Injection, brak powiązania tokenu z użytkownikiem, brak obsługi błędów
 - PhotoController - wstrzykiwanie zależności
 - Wyodrębnienie logiki pobierania zalogowanego użytkownika (home i profile)
+- Usunięcie `setUser()` z `LikeRepository` - stan użytkownika w repozytorium narusza zasadę pojedyńczej odpowiedzialności i utrudnia testowanie. Przekazanie `User` jako argument.
 - 
 
 
